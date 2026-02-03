@@ -1,0 +1,276 @@
+<! doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iris Classifier - ML Powered Classification</title>
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Classify iris flowers using machine learning">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#6366f1">
+</head>
+
+<body>
+  <!-- Background Effects -->
+  <div class="bg-gradient"></div>
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <div class="logo-wrapper">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Iris Classifier</h1>
+          <p class="subtitle">AI-powered flower species classification</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Model Training Card -->
+      <div class="card training-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>🧠 Neural Network Training</h2>
+            <p class="card-description">Train the AI model to classify iris species</p>
+          </div>
+          <div class="status-badge" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusText">Ready</span>
+          </div>
+        </div>
+
+        <div class="training-info">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-icon">📊</div>
+              <div class="info-content">
+                <span class="info-label">Dataset</span>
+                <span class="info-value">150 samples</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">🔢</div>
+              <div class="info-content">
+                <span class="info-label">Features</span>
+                <span class="info-value">4 dimensions</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">🌸</div>
+              <div class="info-content">
+                <span class="info-label">Classes</span>
+                <span class="info-value">3 species</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">⚡</div>
+              <div class="info-content">
+                <span class="info-label">Algorithm</span>
+                <span class="info-value">Deep Learning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="trainBtn">
+          <span class="btn-spinner" id="trainSpinner"></span>
+          <span class="btn-icon">🚀</span>
+          <span id="trainBtnText">Start Training</span>
+        </button>
+
+        <div class="progress-section" id="progressSection" style="display: none;">
+          <div class="progress-header">
+            <span id="progressText">Initializing... </span>
+            <span id="progressPercent" class="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-glow" id="progressGlow"></div>
+          </div>
+        </div>
+
+        <div class="metrics" id="metrics" style="display: none;">
+          <div class="metric-card">
+            <div class="metric-icon">✓</div>
+            <div class="metric-content">
+              <div class="metric-label">Accuracy</div>
+              <div class="metric-value" id="accuracyValue">-</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">📉</div>
+            <div class="metric-content">
+              <div class="metric-label">Loss</div>
+              <div class="metric-value" id="lossValue">-</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">🔄</div>
+            <div class="metric-content">
+              <div class="metric-label">Epochs</div>
+              <div class="metric-value" id="epochValue">-</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">⏱️</div>
+            <div class="metric-content">
+              <div class="metric-label">Time</div>
+              <div class="metric-value" id="timeValue">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Training Visualization -->
+        <div class="chart-container" id="chartContainer" style="display: none;">
+          <h3>Training Progress</h3>
+          <canvas id="trainingChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Prediction Card -->
+      <div class="card prediction-card" id="predictionCard" style="display: none;">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>🔍 Make Prediction</h2>
+            <p class="card-description">Enter flower measurements to classify</p>
+          </div>
+        </div>
+
+        <form id="predictionForm" class="prediction-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="sepalLength">
+                <span class="label-icon">📏</span>
+                Sepal Length (cm)
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="sepalLength" step="0.1" min="0" max="10" required placeholder="5.1">
+                <span class="input-unit">cm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sepalWidth">
+                <span class="label-icon">📐</span>
+                Sepal Width (cm)
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="sepalWidth" step="0.1" min="0" max="10" required placeholder="3.5">
+                <span class="input-unit">cm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="petalLength">
+                <span class="label-icon">🌺</span>
+                Petal Length (cm)
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="petalLength" step="0.1" min="0" max="10" required placeholder="1.4">
+                <span class="input-unit">cm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="petalWidth">
+                <span class="label-icon">🌸</span>
+                Petal Width (cm)
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="petalWidth" step="0.1" min="0" max="10" required placeholder="0.2">
+                <span class="input-unit">cm</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-secondary">
+              <span class="btn-icon">🎯</span>
+              Classify Species
+            </button>
+            <button type="button" class="btn btn-outline" id="resetBtn">
+              <span class="btn-icon">🔄</span>
+              Reset
+            </button>
+          </div>
+        </form>
+
+        <div class="result" id="result" style="display:  none;">
+          <div class="result-header">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Classification Result</div>
+          </div>
+          <div class="result-species-wrapper">
+            <div class="result-species" id="resultSpecies"></div>
+            <div class="result-confidence" id="resultConfidence"></div>
+          </div>
+          <div class="confidence-bars" id="confidenceBars"></div>
+        </div>
+      </div>
+
+      <!-- Quick Examples -->
+      <div class="card examples-card" id="examplesCard" style="display: none;">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>💡 Quick Examples</h2>
+            <p class="card-description">Try these sample measurements</p>
+          </div>
+        </div>
+        <div class="examples-grid">
+          <button class="example-btn" data-example="setosa">
+            <div class="example-icon">🌼</div>
+            <div class="example-name">Iris Setosa</div>
+            <div class="example-values">5.1, 3.5, 1.4, 0.2</div>
+          </button>
+          <button class="example-btn" data-example="versicolor">
+            <div class="example-icon">🌷</div>
+            <div class="example-name">Iris Versicolor</div>
+            <div class="example-values">5.9, 3.0, 5.1, 1.8</div>
+          </button>
+          <button class="example-btn" data-example="virginica">
+            <div class="example-icon">🌺</div>
+            <div class="example-name">Iris Virginica</div>
+            <div class="example-values">6.5, 3.0, 5.8, 2.2</div>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Powered by <strong>TensorFlow.js</strong> • Built with ❤️ for ML enthusiasts</p>
+        <div class="footer-links">
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+          <span>•</span>
+          <a href="https://tensorflow.org" target="_blank" rel="noopener">TensorFlow</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Initializing TensorFlow.js...</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
