@@ -1,5 +1,6 @@
 test.html
 test-data.js
+verify-implementation.md
 lib/
 .DS_Store
 *.log
