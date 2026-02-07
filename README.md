@@ -2,8 +2,6 @@
 
 NeuroIris is a client-side Machine Learning web app that trains a small neural network directly in the browser using the Iris dataset. No backend or data upload is required — everything runs locally in the user's browser using TensorFlow.js. Start training with one click and classify iris flowers in real time.
 
-> Note: The screenshot above is a placeholder. See "Add or update screenshot" below for instructions to capture and add a real image.
-
 Table of contents
 - [Demo / Quick start](#demo--quick-start)
 - [Features](#features)
