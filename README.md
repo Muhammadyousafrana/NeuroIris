@@ -1,3 +1,5 @@
+
+[View the Gist](https://gist.github.com/Muhammadyousafrana/488c3686d2177fbd0c993cf7f792ddf8)
 # NeuroIris
 
 NeuroIris is a client-side Machine Learning web app that trains a small neural network directly in the browser using the Iris dataset. No backend or data upload is required — everything runs locally in the user's browser using TensorFlow.js. Start training with one click and classify iris flowers in real time.
